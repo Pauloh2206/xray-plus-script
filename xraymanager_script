@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Script de gerenciamento do Xray
+
+# Cores
+cor1=\'\\033[41;1;37m\'
+cor2=\'\\033[44;1;37m\'
+scor=\'\\033[0m\'
+GREEN=\'\\033[1;32m\'
+YELLOW=\'\\033[1;33m\'
+SCOLOR=\'\\033[0m\'
+
+# Funções utilitárias (copiadas do v2raymanager_script)
+msg () {
+  case $1 in
+  -ne) echo -ne "$2"
+  ;;
+  -n) echo -n "$2"
+  ;;
+  *) echo -e "$2"
+  ;;
+  esac
+}
+
+fun_trans () {
+  echo "$1"
+}
+
+install_xray () {
+  msg -verm "$(fun_trans "Instalando Xray...")"
+  # Baixa o executável e a configuração do Xray do GitHub
+  wget https://raw.githubusercontent.com/Pauloh2206/xray-plus-script/master/xray_executable -O /usr/local/bin/xray
+  wget https://raw.githubusercontent.com/Pauloh2206/xray-plus-script/master/xray_config.json -O /usr/local/etc/xray/config.json
+
+  chmod +x /usr/local/bin/xray
+  mkdir -p /usr/local/etc/xray
+
+  msg -verm "$(fun_trans "Xray instalado com sucesso!")"
+  msg -verm "$(fun_trans "Pressione Enter para continuar")" && read enter
+  fun_xraymanager
+}
+
+fun_xraymanager () {
+  clear
+  echo -e "\\E[44;1;37m            GERENCIADOR XRAY             \\E[0m"
+  echo -e "\\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m"
+  echo -e "\\033[1;37m[1] Instalar Xray"
+  echo -e "\\033[1;37m[2] Gerenciar Usuários (em breve)"
+  echo -e "\\033[1;37m[0] Voltar"
+  echo -e "\\033[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\033[0m"
+  echo -ne "\\033[1;32mOpção: \\033[0m"
+  read opcao
+
+  case "$opcao" in
+    1) install_xray ;;
+    2) msg -verm "$(fun_trans "Funcionalidade em desenvolvimento.")"; sleep 2s; fun_xraymanager ;;
+    0) exit 0 ;;
+    *) msg -verm "$(fun_trans "Opção inválida!")"; sleep 2s; fun_xraymanager ;;
+  esac
+}
+
+fun_xraymanager
+
+
